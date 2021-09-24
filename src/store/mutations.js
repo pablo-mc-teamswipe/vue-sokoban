@@ -111,5 +111,17 @@ export default {
             state.bricksCurrentPosition[nextMovement.indexBrickMoved].column += movementColumn
         }
         state.numberMovementsPlayed++
+    },
+
+    [MutationTypes.INIT_LEVEL] (state, {boardIndex}) {
+        console.log(state.boards[boardIndex].bricksInitialPosition);
+        state.currentBoardIndex = boardIndex;
+        Object.assign(state.playerCurrentPosition, state.boards[boardIndex].playerInitialPosition)
+        Object.assign(state.bricksCurrentPosition,[])
+        for(let iterator in state.boards[boardIndex].bricksInitialPosition){
+            state.bricksCurrentPosition[iterator] = state.boards[boardIndex].bricksInitialPosition[iterator];
+        }
+        this.numberMovements = 0;
+        this.numberMovementsPlayed = 0;
     }
 }  

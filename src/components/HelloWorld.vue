@@ -20,8 +20,8 @@
       </div>
     </div-->
     <ul>
-      <li v-for="indexRow in board.rows" :key="indexRow" >
-        <sokoban-cell v-for="indexColumn in board.columns" :key="indexColumn" 
+      <li v-for="indexRow in boards[boardIndex].rows" :key="indexRow" >
+        <sokoban-cell v-for="indexColumn in boards[boardIndex].columns" :key="indexColumn" 
           :row="indexRow" :column="indexColumn" ></sokoban-cell>
       </li>
     </ul>
@@ -34,13 +34,16 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: { SokobanCell },
-  name: 'HelloWorld',
+  name: 'board-game',
   props: {
-    msg: String
+    boardIndex: Number
+  },
+  created: function(){
+    this.initLevel({'boardIndex': this.boardIndex});
   },
   computed: {
     ...mapState([
-      'board',
+      'boards',
       'numberMovements',
       'numberMovementsPlayed'
       //,'listMovements'
@@ -50,7 +53,8 @@ export default {
     ...mapActions([
       'moveTo',
       'back',
-      'forward'
+      'forward',
+      'initLevel'
     ])
   }
 }

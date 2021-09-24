@@ -7,19 +7,19 @@ export default {
 
         let indexBrick = -1;
         let iterator
+        let board = state.boards[state.currentBoardIndex]
 
         // Check if there is a wall in this cell
-        for(iterator in state.board.walls){
-            if(state.board.walls[iterator].row == row && state.board.walls[iterator].column == column){
+        for(iterator in board.walls){
+            if(board.walls[iterator].row == row && board.walls[iterator].column == column){
                 content = CellDefinitions.CELL_CONTENT_WALL
                 status = CellDefinitions.CELL_STATUS_WALL
             }
         }
 
         // Check if a target brick is in this cell
-        for(iterator in state.board.brickTargets){
-            let brickTarget = state.board.brickTargets[iterator];
-            if(brickTarget.row == row && brickTarget.column == column){
+        for(iterator in board.brickTargets){
+            if(board.brickTargets[iterator].row == row && board.brickTargets[iterator].column == column){
                 content = CellDefinitions.CELL_CONTENT_TARGET
             }
         }

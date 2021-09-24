@@ -1,18 +1,21 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <levels-list />
+    <board-game :boardIndex="boardIndex"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import LevelsList from '@/components/LevelsList.vue'
+import BoardGame from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
   components: {
-    LevelsList
+    BoardGame
+  },
+  props: {
+    boardIndex: Number
   }
 }
 </script>

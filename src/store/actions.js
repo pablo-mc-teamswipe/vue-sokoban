@@ -11,6 +11,10 @@ export default {
 
     forward ({commit}){
       commit(MutationTypes.GOTO_FORWARD)
+    },
+
+    initLevel( {commit}, {boardIndex}){
+      commit(MutationTypes.INIT_LEVEL, {boardIndex})
     }
 }  
 
