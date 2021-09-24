@@ -11,8 +11,8 @@ import * as CellDefinitions from '@/game/cell-definitions'
 export default defineComponent({
     name: 'sokoban-cell',
     props: {
-        row: String,
-        column: String
+        row: Number,
+        column: Number
     },
 
     computed: {
