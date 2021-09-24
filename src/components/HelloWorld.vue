@@ -20,8 +20,8 @@
       </div>
     </div-->
     <ul>
-      <li v-for="(row, indexRow) in board.cells" :key="indexRow" >
-        <sokoban-cell v-for="(cell, indexColumn) in row" :key="indexColumn" 
+      <li v-for="indexRow in board.rows" :key="indexRow" >
+        <sokoban-cell v-for="indexColumn in board.columns" :key="indexColumn" 
           :row="indexRow" :column="indexColumn" ></sokoban-cell>
       </li>
     </ul>
@@ -44,7 +44,7 @@ export default {
       'numberMovements',
       'numberMovementsPlayed'
       //,'listMovements'
-    ])
+    ]) 
   },
   methods: {
     ...mapActions([
