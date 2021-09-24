@@ -1,8 +1,17 @@
+import * as MutationTypes from '@/store/mutation-types'
+
 export default {
-    // Fetch via AJAX the boards from user
     moveTo ({ commit }, { direction }) {
-      commit('moveTo', {direction})
+      commit(MutationTypes.MOVE_TO, {direction})
     },
+
+    back ({commit}){
+      commit(MutationTypes.GOTO_BACK)
+    },
+
+    forward ({commit}){
+      commit(MutationTypes.GOTO_FORWARD)
+    }
 }  
 
 //https://stackoverflow.com/questions/52048944/vuex-call-getters-from-action

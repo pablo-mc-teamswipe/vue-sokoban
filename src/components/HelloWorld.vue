@@ -1,9 +1,24 @@
 <template>
   <div class="hello" >
-    <button @click="moveTo({direction:'up'})">Up</button>
-    <button @click="moveTo({direction: 'down'})">Down</button>
-    <button @click="moveTo({direction:'left'})">Left</button>
-    <button @click="moveTo({direction:'right'})">Right</button>
+    <div class="rowButtons">
+      <button @click="moveTo({direction:'up'})">Up</button>
+      <button @click="moveTo({direction: 'down'})">Down</button>
+      <button @click="moveTo({direction:'left'})">Left</button>
+      <button @click="moveTo({direction:'right'})">Right</button>
+    </div>
+    <div class="rowButtons">
+      <!--button @click="moveTo({direction:'up'})">Rewind</button-->
+      <button @click="back">Back</button>
+      <!--button @click="moveTo({direction:'left'})">Pause</button-->
+      <button @click="forward">Forward</button>
+      <!--button @click="moveTo({direction:'right'})">Fast-Forward</button-->
+    </div>
+    <div>Movements: {{ numberMovementsPlayed }} of {{ numberMovements }} </div>
+    <!--div class="listMovements">
+      <div v-for="(movement, indexMovement) in listMovements" :key="indexMovement">
+        {{movement.direction}} Moves brick: {{ movement.indexBrickMoved}} 
+      </div>
+    </div-->
     <ul>
       <li v-for="(row, indexRow) in board.cells" :key="indexRow" >
         <sokoban-cell v-for="(cell, indexColumn) in row" :key="indexColumn" 
@@ -25,16 +40,18 @@ export default {
   },
   computed: {
     ...mapState([
-      'board'
+      'board',
+      'numberMovements',
+      'numberMovementsPlayed'
+      //,'listMovements'
     ])
   },
   methods: {
     ...mapActions([
-      'moveTo'
-    ]),
-    earendil (){
-
-    }
+      'moveTo',
+      'back',
+      'forward'
+    ])
   }
 }
 </script>
@@ -43,6 +60,15 @@ export default {
 <style scoped>
 li{
   clear: both;
-  list-style: none;;
+  list-style: none;
 }
+.rowButtons{
+  clear: both;
+}
+/*.listMovements{
+  position: fixed;
+  top: 0;
+  right: 200px;
+  width: 180px;
+}*/
 </style>

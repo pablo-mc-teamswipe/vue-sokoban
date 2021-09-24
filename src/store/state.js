@@ -44,6 +44,11 @@ export default {
     },
     bricksCurrentPosition: [
         {row: 2, column: 2}
+    ],
+    numberMovements: 0,
+    numberMovementsPlayed: 0,
+    listMovements: [
+        /* { direction: left|right|down|up, movesBrick: true|false } */
     ]
 }
   
