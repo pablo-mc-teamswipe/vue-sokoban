@@ -68,27 +68,27 @@ export default defineComponent({
         border: 5px solid;
     }
     .wall_class{
-        background: purple;
-        border-color: purple;
+        background: #6E4835;
+        border-color: #6E4835;
     }
     .target_class{
-        background: blue;
+        background: #C9C1A9;
     }
 
     .default_class{
-        background: yellow;
+        background: #C58372;
     }
 
     .brick_class{
-        border-color: orange;
+        border-color: #735F68;
     }
 
     .free_class{
-        border-color: yellow;
+        border-color: #C58372;
     }
 
     .player_class{
-        border-color: red;
+        border-color: #4F952A;
     }
 
 </style>
