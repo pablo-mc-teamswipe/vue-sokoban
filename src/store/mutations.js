@@ -32,6 +32,7 @@ export default {
             state.listMovements[state.numberMovementsPlayed] = { direction, movesBrick: false, indexBrickMoved: -1};
             state.numberMovementsPlayed++
             state.numberMovements = state.numberMovementsPlayed
+            state.levelCompleted = CellUtils.default.checkLevelCompleted(state)
         }
         if( adjacentCell.status == CellDefinitions.CELL_STATUS_BRICK){
             const nextAdjacentCell = CellUtils.default.getCell(state, state.playerCurrentPosition.row + movementRow * 2, state.playerCurrentPosition.column + movementColumn * 2);
@@ -43,6 +44,7 @@ export default {
                 state.listMovements[state.numberMovements] = { direction, movesBrick: true, indexBrickMoved: adjacentCell.indexBrick};
                 state.numberMovementsPlayed++
                 state.numberMovements = state.numberMovementsPlayed
+                state.levelCompleted = CellUtils.default.checkLevelCompleted(state)
             }
         }
     },
@@ -121,7 +123,8 @@ export default {
         for(let iterator in state.boards[boardIndex].bricksInitialPosition){
             state.bricksCurrentPosition[iterator] = state.boards[boardIndex].bricksInitialPosition[iterator];
         }
-        this.numberMovements = 0;
-        this.numberMovementsPlayed = 0;
+        state.numberMovements = 0;
+        state.numberMovementsPlayed = 0;
+        state.levelCompleted = false
     }
 }  

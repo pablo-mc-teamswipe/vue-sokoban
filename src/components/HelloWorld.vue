@@ -1,10 +1,13 @@
 <template>
   <div class="hello" >
-    <div class="rowButtons">
+    <div class="rowButtons" v-if="!levelCompleted">
       <button @click="moveTo({direction:'up'})">Up</button>
       <button @click="moveTo({direction: 'down'})">Down</button>
       <button @click="moveTo({direction:'left'})">Left</button>
       <button @click="moveTo({direction:'right'})">Right</button>
+    </div>
+    <div v-else>
+      LEVEL COMPLETED !!!
     </div>
     <div class="rowButtons">
       <!--button @click="moveTo({direction:'up'})">Rewind</button-->
@@ -45,7 +48,8 @@ export default {
     ...mapState([
       'boards',
       'numberMovements',
-      'numberMovementsPlayed'
+      'numberMovementsPlayed',
+      'levelCompleted'
       //,'listMovements'
     ]) 
   },

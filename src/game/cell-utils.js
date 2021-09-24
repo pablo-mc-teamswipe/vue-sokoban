@@ -43,5 +43,24 @@ export default {
             status: status,
             indexBrick: parseInt(indexBrick)
         }
+    },
+
+    checkLevelCompleted: (state) => {
+        let board = state.boards[state.currentBoardIndex]
+        let levelCompleted = true
+        for(let iterator_A in board.brickTargets){
+            let targetGot = false
+            let target = board.brickTargets[iterator_A]
+            for(let iterator_B in state.bricksCurrentPosition){
+                let brick = state.bricksCurrentPosition[iterator_B]
+                if(target.row == brick.row && target.column == brick.column){
+                    targetGot = true
+                }
+            }
+            if(!targetGot){
+                levelCompleted = false;
+            }
+        }
+        return levelCompleted
     }
 }

@@ -90,6 +90,7 @@ export default {
     numberMovementsPlayed: 0,
     listMovements: [
         /* { direction: left|right|down|up, movesBrick: true|false } */
-    ]
+    ],
+    levelCompleted: false
 }
   
