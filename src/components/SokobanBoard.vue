@@ -37,7 +37,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: { SokobanCell },
-  name: 'board-game',
+  name: 'sokoban-board',
   props: {
     boardIndex: Number
   },
