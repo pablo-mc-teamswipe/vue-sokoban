@@ -62,5 +62,28 @@ export default {
             }
         }
         return levelCompleted
+    },
+
+    getDimensionIncrementsByDirection: (direction) => {
+        let movementRow, movementColumn;
+        switch(direction){
+            case 'down':
+                movementRow = +1
+                movementColumn = 0
+                break
+            case 'up':
+                movementRow = -1
+                movementColumn = 0
+                break
+            case 'left':
+                movementRow = 0
+                movementColumn = -1
+                break
+            case 'right':
+                movementRow = 0
+                movementColumn = +1
+                break
+        }
+        return {movementRow, movementColumn};
     }
 }
