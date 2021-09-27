@@ -1,7 +1,7 @@
 <template>
     <ul>
-        <li v-for="indexRow in boards[boardIndex].rows" :key="indexRow" >
-            <sokoban-cell v-for="indexColumn in boards[boardIndex].columns" :key="indexColumn" 
+        <li v-for="indexRow in board.rows" :key="indexRow" >
+            <sokoban-cell v-for="indexColumn in board.columns" :key="indexColumn" 
                 :row="indexRow" :column="indexColumn" ></sokoban-cell>
         </li>
     </ul>
@@ -17,12 +17,12 @@ export default defineComponent({
         boardIndex: Number
     },
     created: function(){
-        this.initLevel({'boardIndex': this.boardIndex});
+        this.initLevel({'level': this.boardIndex});
     },
     components: {SokobanCell},  
     computed: {
         ...mapState([
-            'boards'
+            'board'
         ]) 
     },
     methods: {

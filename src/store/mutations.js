@@ -63,12 +63,12 @@ export default {
         state.numberMovementsPlayed++
     },
 
-    [MutationTypes.INIT_LEVEL] (state, {boardIndex}) {
-        state.currentBoardIndex = boardIndex;
-        Object.assign(state.playerCurrentPosition, state.boards[boardIndex].playerInitialPosition)
+    [MutationTypes.INIT_LEVEL] (state, {levelData}) {
+        state.board = levelData;
+        Object.assign(state.playerCurrentPosition, state.board.playerInitialPosition)
         Object.assign(state.bricksCurrentPosition,[])
-        for(let iterator in state.boards[boardIndex].bricksInitialPosition){
-            state.bricksCurrentPosition[iterator] = state.boards[boardIndex].bricksInitialPosition[iterator];
+        for(let iterator in state.board.bricksInitialPosition){
+            state.bricksCurrentPosition[iterator] = state.board.bricksInitialPosition[iterator];
         }
         state.numberMovements = 0;
         state.numberMovementsPlayed = 0;

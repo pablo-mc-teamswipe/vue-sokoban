@@ -4,7 +4,11 @@ import * as ApiSettings from "@/api/settings.js"
 export default {
     fetchLevels () {
         return axios
-        .get(`${ApiSettings.BACKEND_HOST}/levels`)
+            .get(`${ApiSettings.BACKEND_HOST}/levels`)
 
     },
+    fetchLevel (level){
+        return axios.
+            get(`${ApiSettings.BACKEND_HOST}/levelInfo/${level}`);
+    }
 }  

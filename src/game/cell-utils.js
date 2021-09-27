@@ -7,7 +7,7 @@ export default {
 
         let indexBrick = -1;
         let iterator
-        let board = state.boards[state.currentBoardIndex]
+        let board = state.board
 
         // Check if there is a wall in this cell
         for(iterator in board.walls){
@@ -46,7 +46,7 @@ export default {
     },
 
     checkLevelCompleted: (state) => {
-        let board = state.boards[state.currentBoardIndex]
+        let board = state.board
         let levelCompleted = true
         for(let iterator_A in board.brickTargets){
             let targetGot = false

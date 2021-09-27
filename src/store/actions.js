@@ -30,8 +30,19 @@ export default {
       commit(MutationTypes.GOTO_FORWARD)
     },
 
-    initLevel( {commit}, {boardIndex}){
-      commit(MutationTypes.INIT_LEVEL, {boardIndex})
+    initLevel( {commit}, {level}){
+      commit( MutationTypes.FETCHING_DATA)
+      API.fetchLevel(level)
+        .then( response => {
+          if(response.data.code == "204"){
+            commit(MutationTypes.INIT_LEVEL, {levelData: response.data.level_data});
+          }else{
+            commit(MutationTypes.ERROR );
+          }
+        })
+        .catch( () => {
+          commit(MutationTypes.ERROR );
+        });
     }
 }  
 
