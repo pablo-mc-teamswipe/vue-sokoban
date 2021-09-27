@@ -11,7 +11,7 @@
 
 <script>
 // @ is an alias to /src
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { useI18n } from 'vue-i18n'
 
 export default {
@@ -30,6 +30,11 @@ export default {
     ...mapState([
       'boards',
     ]) 
+  },
+  methods: {
+    ...mapActions([
+      'fetchLevels',
+    ])
   }
 }
 </script>
