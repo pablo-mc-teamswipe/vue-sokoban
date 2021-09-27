@@ -1,1 +1,1 @@
-export const BACKEND_HOST = 'http://genesis.shop'
+export const BACKEND_HOST = 'http://genesis.shop/api'

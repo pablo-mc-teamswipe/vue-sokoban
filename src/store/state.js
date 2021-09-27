@@ -1,5 +1,8 @@
 
 export default {
+    listLevels: [
+        /* { id, name, description, screenshot} */
+    ],
     boards: [
         {
             rows: 5,
@@ -198,6 +201,8 @@ export default {
             ]
         },
     ],
+    fetchingData: false,
+    error: false,
     currentBoardIndex: -1,
     playerCurrentPosition: {
         /*row: 2,

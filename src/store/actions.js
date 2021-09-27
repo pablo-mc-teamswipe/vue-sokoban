@@ -3,8 +3,19 @@ import * as MutationTypes from '@/store/mutation-types'
 
 export default {
     fetchLevels( {commit} ) {
-      const listLevels = API.fetchLevels();
-      commit(MutationTypes.FETCH_LEVELS, { listLevels });
+      commit( MutationTypes.FETCHING_DATA)
+
+      API.fetchLevels()
+        .then( response => {
+            if(response.data.code == "204"){
+              commit(MutationTypes.FETCH_LEVELS, { listLevels: response.data.data } );
+            }else{
+              commit(MutationTypes.ERROR );
+            }
+          })
+        .catch( () => {
+          commit(MutationTypes.ERROR );
+        });
     },
 
     moveTo ({ commit }, { direction }) {

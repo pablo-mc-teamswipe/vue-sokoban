@@ -64,7 +64,6 @@ export default {
     },
 
     [MutationTypes.INIT_LEVEL] (state, {boardIndex}) {
-        console.log(state.boards[boardIndex].bricksInitialPosition);
         state.currentBoardIndex = boardIndex;
         Object.assign(state.playerCurrentPosition, state.boards[boardIndex].playerInitialPosition)
         Object.assign(state.bricksCurrentPosition,[])
@@ -74,5 +73,17 @@ export default {
         state.numberMovements = 0;
         state.numberMovementsPlayed = 0;
         state.levelCompleted = false
-    }
+    },
+
+    [MutationTypes.FETCH_LEVELS] (state, {listLevels}) {
+        Object.assign(state.listLevels, listLevels)
+    },
+
+    [MutationTypes.FETCHING_DATA] (state){
+        state.fetchingData = true
+    },
+
+    [MutationTypes.ERROR] (state){
+        state.error = true
+    },
 }  

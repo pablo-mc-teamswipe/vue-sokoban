@@ -2,8 +2,8 @@
     <div class="home">
         {{t('levels_list')}}
         <ul>
-            <li v-for="(board, index) in boards" :key="index">
-                <router-link :to="{ name: 'Level', params: { boardIndex: index } }">{{t('level')}} {{index}}</router-link>
+            <li v-for="(level, index) in listLevels" :key="index">
+                <router-link :to="{ name: 'Level', params: { boardIndex: level.id } }"> {{level.name}}</router-link>
             </li>
         </ul>
     </div>
@@ -26,9 +26,12 @@ export default {
 
     return { t }
   },
+  created: function(){
+    this.fetchLevels();
+  },
   computed: {
     ...mapState([
-      'boards',
+      'listLevels',
     ]) 
   },
   methods: {
