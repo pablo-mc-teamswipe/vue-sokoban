@@ -8,6 +8,7 @@
         </div>
         <div v-if="levelCompleted">
             {{t('level_completed')}}
+            <button @click="callReportSolution">{{t('report_solution')}}</button>
         </div>
         <div v-if="inMovieMovements && !levelCompleted">
             PAUSE {{ directionMovie }} TO MOVE!!
@@ -53,6 +54,7 @@ export default defineComponent({
     },
     computed: {
         ...mapState([
+            'levelId',
             'numberMovements',
             'numberMovementsPlayed',
             'levelCompleted'
@@ -64,6 +66,7 @@ export default defineComponent({
             'moveTo',
             'back',
             'forward',
+            'reportSolution'
         ]),
         fastForward: function(){
             if(this.interval != null){
@@ -100,6 +103,9 @@ export default defineComponent({
             clearInterval(this.interval)
             this.interval = null
         },
+        callReportSolution: function(){
+            this.reportSolution({levelId: this.levelId, numberMovements: this.numberMovements})
+        },
     }
 })
 </script>
@@ -124,21 +130,24 @@ export default defineComponent({
     "down": "Down",
     "left": "Left",
     "right": "Right",
-    "level_completed": "LEVEL COMPLETED !!!"
+    "level_completed": "LEVEL COMPLETED !!!",
+    "report_solution": "REPORT SOLUTION"
   },
   "es" : {
     "up": "Arriba",
     "down": "Abajo",
     "left": "Izquierda",
     "right": "Derecha",
-    "level_completed": "¡ NIVEL COMPLETADO !"
+    "level_completed": "¡ NIVEL COMPLETADO !",
+    "report_solution": "ENVIAR SOLUCIÓN"
   },
   "fr" : {
     "up": "Haut",
     "down": "Bas",
     "left": "Gauche",
     "right": "Droite",
-    "level_completed": "Niveau terminé !!!"
+    "level_completed": "Niveau terminé !!!",
+    "report_solution": "Solution de rapport"
   }
 }
 </i18n>

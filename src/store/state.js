@@ -4,6 +4,7 @@ export default {
     listLevels: [
         /* { id, name, description, screenshot} */
     ],
+    levelId: -1,
     board: {
         /* rows, columns */ 
     },

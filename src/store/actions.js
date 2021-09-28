@@ -36,7 +36,7 @@ export default {
       API.fetchLevel(level)
         .then( response => {
           if(response.data.code == "204"){
-            commit(MutationTypes.INIT_LEVEL, {levelData: response.data.level_data});
+            commit(MutationTypes.INIT_LEVEL, {level: response.data.level});
           }else{
             commit(MutationTypes.ERROR );
           }
@@ -69,6 +69,21 @@ export default {
       localStorage.clear();
       commit(MutationTypes.SET_PLAYER_NAME, {playerName: null})
       component.$router.push(Settings.BASE_GUEST_URL)
+    },
+
+    reportSolution( {commit} , {levelId, numberMovements}){
+      commit( MutationTypes.FETCHING_DATA)
+      API.reportSolution({levelId, numberMovements, playerName: localStorage.playerName})
+        .then( response => {
+            if(response.data.code == "204"){
+              commit(MutationTypes.ERROR );
+            }else{
+              commit(MutationTypes.ERROR );
+            }
+          })
+        .catch( () => {
+          commit(MutationTypes.ERROR );
+        });
     }
 }  
 
