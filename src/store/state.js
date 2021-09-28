@@ -1,5 +1,6 @@
 
 export default {
+    playerName: null,
     listLevels: [
         /* { id, name, description, screenshot} */
     ],

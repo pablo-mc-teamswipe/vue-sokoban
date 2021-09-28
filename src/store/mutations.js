@@ -86,4 +86,8 @@ export default {
     [MutationTypes.ERROR] (state){
         state.error = true
     },
+
+    [MutationTypes.SET_PLAYER_NAME] (state, {playerName}){
+        state.playerName = playerName;
+    }
 }  

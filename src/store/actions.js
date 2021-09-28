@@ -1,5 +1,6 @@
 import API from '@/api'
 import * as MutationTypes from '@/store/mutation-types'
+import * as Settings from '@/settings.js'
 
 export default {
     fetchLevels( {commit} ) {
@@ -43,6 +44,31 @@ export default {
         .catch( () => {
           commit(MutationTypes.ERROR );
         });
+    },
+
+    checkLogin( {commit}, {requiredStatus, component}){
+      if(localStorage.playerName != null){
+        commit( MutationTypes.SET_PLAYER_NAME, {playerName: localStorage.playerName})
+      }
+      if(requiredStatus == 'auth' && localStorage.playerName == null){
+        component.$router.push(Settings.BASE_GUEST_URL);
+      }
+      if(requiredStatus == 'guest' && localStorage.playerName != null){
+          component.$router.push(Settings.BASE_AUTH_URL);
+      }
+
+    },
+
+    setPlayerName( {commit} , {component, playerName}){
+      localStorage.playerName = playerName;
+      commit(MutationTypes.SET_PLAYER_NAME, {playerName})
+      component.$router.push(Settings.BASE_AUTH_URL)
+    },
+
+    clearPlayerName( {commit} , {component}){
+      localStorage.clear();
+      commit(MutationTypes.SET_PLAYER_NAME, {playerName: null})
+      component.$router.push(Settings.BASE_GUEST_URL)
     }
 }  
 
