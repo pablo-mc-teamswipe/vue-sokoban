@@ -1,18 +1,19 @@
 <template>
-    <div>
-        <h2>Login view</h2>
+    <page-layout>
+        <h2>Sokoban Game</h2>
         <input-name />
-    </div>
+    </page-layout>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { mapActions } from 'vuex'
+import PageLayout from '@/components/PageLayout.vue'
 import InputName from '@/components/InputName.vue'
 
 export default defineComponent({
     components: {
-        InputName
+        InputName, PageLayout
     },
     setup() {
         

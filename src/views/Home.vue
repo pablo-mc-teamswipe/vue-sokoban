@@ -1,13 +1,13 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <levels-list />
-  </div>
+    <page-layout>
+        <levels-list />
+    </page-layout>
 </template>
 
 <script>
 // @ is an alias to /src
 import { mapActions } from 'vuex'
+import PageLayout from '@/components/PageLayout.vue'
 import LevelsList from '@/components/LevelsList.vue'
 
 export default {
@@ -16,7 +16,7 @@ export default {
     this.checkLogin({component: this, requiredStatus: 'auth'})
   },
   components: {
-    LevelsList
+    LevelsList, PageLayout
   },
   methods: {
     ...mapActions([
