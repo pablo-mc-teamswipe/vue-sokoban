@@ -39,5 +39,9 @@ li{
     clear: both;
     list-style: none;
 }
+
+ul {
+    float: left;
+}
 </style>
 

@@ -8,6 +8,9 @@ export default {
     board: {
         /* rows, columns */ 
     },
+    solutionsReported: [
+        /**  */
+    ],
     fetchingData: false,
     error: false,
     currentBoardIndex: -1,

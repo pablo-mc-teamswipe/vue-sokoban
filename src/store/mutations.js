@@ -66,6 +66,7 @@ export default {
     [MutationTypes.INIT_LEVEL] (state, {level}) {
         state.levelId = level.id;
         state.board = level.board;
+        state.solutionsReported = level.solutionsReported;
         Object.assign(state.playerCurrentPosition, state.board.playerInitialPosition)
         Object.assign(state.bricksCurrentPosition,[])
         for(let iterator in state.board.bricksInitialPosition){
