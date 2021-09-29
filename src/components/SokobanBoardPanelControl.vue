@@ -1,5 +1,5 @@
 <template>
-    <div class="hello" >
+    <div class="panel-control" >
         <div class="rowButtons" v-if="!levelCompleted && !inMovieMovements">
             <button @click="moveTo({direction:'up'})">{{t('up')}}</button>
             <button @click="moveTo({direction: 'down'})">{{t('down')}}</button>
@@ -111,6 +111,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.panel-control{
+    float: left;
+}
 .rowButtons{
     clear: both;
 }

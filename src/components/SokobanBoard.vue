@@ -1,8 +1,10 @@
 <template>
   <div class="hello" >
     <sokoban-board-panel-control />
-    <sokoban-board-table :boardIndex="boardIndex" />
-    <sokoban-solutions-reported />
+    <div class="down">
+      <sokoban-solutions-reported />
+      <sokoban-board-table :boardIndex="boardIndex" />
+    </div>
   </div>
 </template>
 
@@ -20,3 +22,12 @@ export default {
 }
 </script>
 
+<style scoped>
+.hello{
+  margin: 0 auto;
+  display: block;
+}
+.down{
+  clear: both;
+}
+</style>

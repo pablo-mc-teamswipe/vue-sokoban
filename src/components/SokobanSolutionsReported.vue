@@ -29,7 +29,8 @@ export default defineComponent({
 <style scoped>
     .solutions-reported{
         width: 160px;
-        float: right;
+        float: left;
+        clear: both;
     }
     li{
         list-style: none;
