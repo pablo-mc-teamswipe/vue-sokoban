@@ -49,6 +49,7 @@ export default {
     },
 
     checkLogin( {commit} , {requiredStatus, component} ){
+        commit(MutationTypes.LOGIN_CHECK_REQUEST)
         let status = 'guest'
         LoginUtils.getStatusLogin()
         .then( response => {
@@ -66,7 +67,7 @@ export default {
             }
 
             if(status == 'auth'){
-                commit( MutationTypes.SET_PLAYER_NAME, {playerName: localStorage.email})
+                commit( MutationTypes.LOGIN_CHECK_SUCCESS, {playerName: localStorage.email})
             }
     
             if(requiredStatus == 'auth' && status == 'guest'){
@@ -78,7 +79,7 @@ export default {
 
         }).
         catch( () => {
-            commit(MutationTypes.ERROR );
+            commit(MutationTypes.LOGIN_CHECK_FAILURE );
         })
 
 

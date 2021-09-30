@@ -15,6 +15,7 @@ export default {
     error: false,
     loginRequest: '',
     loginError: '',
+    checkingLogin: false,
     currentBoardIndex: -1,
     playerCurrentPosition: {
         /*row: 2,

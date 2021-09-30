@@ -1,12 +1,12 @@
 <template>
     <page-layout>
-        <levels-list />
+        <levels-list v-if="!checkingLogin" />
     </page-layout>
 </template>
 
 <script>
 // @ is an alias to /src
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import PageLayout from '@/components/PageLayout.vue'
 import LevelsList from '@/components/LevelsList.vue'
 
@@ -17,6 +17,11 @@ export default {
   },
   components: {
     LevelsList, PageLayout
+  },
+  computed: {
+    ...mapState([
+      'checkingLogin'
+    ])
   },
   methods: {
     ...mapActions([

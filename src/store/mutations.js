@@ -105,5 +105,18 @@ export default {
     [MutationTypes.LOGIN_FAILURE] (state , {errorLabel}){
         state.loginError = errorLabel
         state.loginRequest = false
-    }
+    },
+
+    [MutationTypes.LOGIN_CHECK_REQUEST] (state) {
+        state.checkingLogin = true
+    },
+
+    [MutationTypes.LOGIN_CHECK_SUCCESS] (state, {playerName}) {
+        state.checkingLogin = false
+        state.playerName = playerName;
+    },
+
+    [MutationTypes.LOGIN_CHECK_FAILURE] (state) {
+        state.checkingLogin = false
+    },
 }  
