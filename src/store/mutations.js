@@ -91,5 +91,19 @@ export default {
 
     [MutationTypes.SET_PLAYER_NAME] (state, {playerName}){
         state.playerName = playerName;
+    },
+
+    [MutationTypes.LOGIN_REQUEST] (state){
+        state.loginRequest = true
+        state.loginError = ''
+    },
+
+    [MutationTypes.LOGIN_SUCCESS] (state){
+        state.loginRequest = false
+    },
+
+    [MutationTypes.LOGIN_FAILURE] (state , {errorLabel}){
+        state.loginError = errorLabel
+        state.loginRequest = false
     }
 }  

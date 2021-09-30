@@ -113,7 +113,7 @@ export default {
     },
 
     submitLogin( {commit}, {component, email, password}){
-        commit(MutationTypes.FETCHING_DATA)
+        commit(MutationTypes.LOGIN_REQUEST)
 
         API.submitLogin({email, password})
         .then( response => {
@@ -125,12 +125,13 @@ export default {
                 localStorage.refresh_token = response.data.data.refresh_token
                 localStorage.token_type = response.data.data.token_type
                 component.$router.push(Settings.BASE_AUTH_URL)
+                commit(MutationTypes.LOGIN_SUCCESS)
             }else{
-                commit(MutationTypes.ERROR );
+                commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'bad_credentials'} );
             }
         })
         .catch( () => {
-            commit(MutationTypes.ERROR );
+            commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'net_error'} );
         });
     }
 }  

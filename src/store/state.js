@@ -13,6 +13,8 @@ export default {
     ],
     fetchingData: false,
     error: false,
+    loginRequest: '',
+    loginError: '',
     currentBoardIndex: -1,
     playerCurrentPosition: {
         /*row: 2,
