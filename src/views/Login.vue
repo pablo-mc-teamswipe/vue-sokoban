@@ -1,7 +1,7 @@
 <template>
     <page-layout>
         <h2>Sokoban Game</h2>
-        <input-name />
+        <login-form />
     </page-layout>
 </template>
 
@@ -9,11 +9,11 @@
 import { defineComponent } from 'vue'
 import { mapActions } from 'vuex'
 import PageLayout from '@/components/PageLayout.vue'
-import InputName from '@/components/InputName.vue'
+import LoginForm from '@/components/LoginForm.vue'
 
 export default defineComponent({
     components: {
-        InputName, PageLayout
+        LoginForm, PageLayout
     },
     setup() {
         
