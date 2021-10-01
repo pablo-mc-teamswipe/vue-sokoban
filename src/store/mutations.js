@@ -43,27 +43,27 @@ export default {
 
     // Fetch data mutations
     [MutationTypes.FETCH_LEVELS_REQUEST] (state) {
-        state.fetchingDataInProgress = true
-        state.fetchingDataError = false
+        state.fetchingDataInProgress['FETCH_LEVELS'] = true
+        state.fetchingDataError['FETCH_LEVELS'] = false
     },
 
     [MutationTypes.FETCH_LEVELS_SUCCESS] (state, {listLevels}) {
-        state.fetchingDataInProgress = false
+        state.fetchingDataInProgress['FETCH_LEVELS'] = false
         Object.assign(state.listLevels, listLevels)
     },
 
     [MutationTypes.FETCH_LEVELS_FAILURE] (state){
-        state.fetchingDataInProgress = false
-        state.fetchingDataError = true
+        state.fetchingDataInProgress['FETCH_LEVELS'] = false
+        state.fetchingDataError['FETCH_LEVELS'] = true
     },
 
     [MutationTypes.GET_LEVEL_INFO_REQUEST] (state) {
-        state.fetchingDataInProgress = true
-        state.fetchingDataError = false
+        state.fetchingDataInProgress['GET_LEVEL_INFO'] = true
+        state.fetchingDataError['GET_LEVEL_INFO'] = false
     },
 
     [MutationTypes.GET_LEVEL_INFO_SUCCESS] (state, {level}) {
-        state.fetchingDataInProgress = false
+        state.fetchingDataInProgress['GET_LEVEL_INFO'] = false
         state.levelId = level.id;
         state.board = level.board;
         state.solutionsReported = level.solutionsReported;
@@ -75,24 +75,28 @@ export default {
         state.numberMovements = 0;
         state.numberMovementsPlayed = 0;
         state.levelCompleted = false
+        state.levelSolutionReported = false
     },
 
     [MutationTypes.GET_LEVEL_INFO_FAILURE] (state){
-        state.fetchingDataInProgress = false
-        state.fetchingDataError = true
+        state.fetchingDataInProgress['GET_LEVEL_INFO'] = false
+        state.fetchingDataError['GET_LEVEL_INFO'] = true
     },
 
     // Post data mutations
     [MutationTypes.REPORT_SOLUTION_REQUEST] (state) {
-        state.fetchingData = true
+        state.fetchingDataInProgress['REPORT_SOLUTION'] = true
+        state.fetchingDataError['REPORT_SOLUTION'] = false
     },
 
     [MutationTypes.REPORT_SOLUTION_SUCCESS] (state) {
-        state.error = true
+        state.fetchingDataInProgress['REPORT_SOLUTION'] = false
+        state.levelSolutionReported = true
     },
 
     [MutationTypes.REPORT_SOLUTION_FAILURE] (state){
-        state.error = true
+        state.fetchingDataInProgress['REPORT_SOLUTION'] = false
+        state.fetchingDataError['REPORT_SOLUTION'] = true
     },
 
     // Game mutations

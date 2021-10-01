@@ -1,5 +1,5 @@
 <template>
-    <fetch-data-handler>
+    <fetch-data-handler fetchId="GET_LEVEL_INFO">
         <div class="sokoban-board">
             <sokoban-board-panel-control />
             <div class="down">

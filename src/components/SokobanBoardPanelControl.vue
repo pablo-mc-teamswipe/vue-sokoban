@@ -8,7 +8,10 @@
         </div>
         <div v-if="levelCompleted">
             {{t('level_completed')}}
-            <button @click="callReportSolution">{{t('report_solution')}}</button>
+            <fetch-data-handler fetchId="REPORT_SOLUTION">
+                <button @click="callReportSolution" v-if="!levelSolutionReported">{{t('report_solution')}}</button>
+            </fetch-data-handler>
+            <button v-if="levelSolutionReported">{{t('solution_successfully_reported')}}</button>
         </div>
         <div v-if="inMovieMovements && !levelCompleted">
             PAUSE {{ directionMovie }} TO MOVE!!
@@ -33,8 +36,10 @@
 import { defineComponent } from 'vue'
 import { mapState, mapActions } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import FetchDataHandler from '@/components/FetchDataHandler.vue'
 
 export default defineComponent({
+    components: { FetchDataHandler },
     setup() {
         const { t } = useI18n({
         inheritLocale: true,
@@ -57,8 +62,8 @@ export default defineComponent({
             'levelId',
             'numberMovements',
             'numberMovementsPlayed',
-            'levelCompleted'
-            //,'listMovements'
+            'levelCompleted',
+            'levelSolutionReported',
         ]) 
     },
     methods: {

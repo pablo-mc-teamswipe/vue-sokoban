@@ -1,5 +1,5 @@
 <template>
-    <fetch-data-handler>
+    <fetch-data-handler fetchId="FETCH_LEVELS">
         {{t('levels_list')}}
         <ul>
             <li v-for="(level, index) in listLevels" :key="index">

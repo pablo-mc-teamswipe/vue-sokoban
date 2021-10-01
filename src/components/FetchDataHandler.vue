@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div v-if="fetchingDataInProgress">{{t('fetching')}}</div>
-        <div v-if="!fetchingDataInProgress && fetchingDataError">{{t('error')}}</div>
-        <div v-show="!fetchingDataInProgress && !fetchingDataError"><slot /></div>
+        <div v-if="fetchingDataInProgress[fetchId]">{{t('fetching')}}</div>
+        <div v-if="!fetchingDataInProgress[fetchId] && fetchingDataError[fetchId]">{{t('error')}}</div>
+        <div v-show="!fetchingDataInProgress[fetchId] && !fetchingDataError[fetchId]"><slot /></div>
     </div>
 </template>
 
@@ -22,6 +22,9 @@ export default {
     // Something todo ..
 
     return { t }
+  },
+  props: {
+    fetchId: String
   },
   computed: {
     ...mapState([

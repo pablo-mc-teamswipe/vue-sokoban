@@ -7,8 +7,8 @@ export default {
     playerName: null,
 
     // General fetching state data
-    fetchingDataInProgress: false,
-    fetchingDataError: false,
+    fetchingDataInProgress: [ /*false|true */ ],
+    fetchingDataError: [ /*false|true */ ],
 
     // List levels state data
     listLevels: [ /* { id, name, description, screenshot} */ ],
@@ -24,6 +24,7 @@ export default {
     numberMovements: 0,
     numberMovementsPlayed: 0,
     listMovements: [ /* { direction: left|right|down|up, movesBrick: true|false, indexBrickMoved: Number } */ ],
-    levelCompleted: false
+    levelCompleted: false,
+    levelSolutionReported: false,
 }
   

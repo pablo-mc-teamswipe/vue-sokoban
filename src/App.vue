@@ -8,6 +8,9 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'app',
 })
+
+// Check this library to visual appareance of all components
+// https://element-plus.org/en-US/guide/changelog.html 
 </script>
 
 <style>
