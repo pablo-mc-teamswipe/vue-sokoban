@@ -11,22 +11,22 @@ import { mapState, mapActions } from 'vuex'
 import PageLayout from '@/components/PageLayout.vue'
 
 export default {
-  name: 'auth-page-standard-layout',
-  created: function(){
-    this.checkLogin({component: this, requiredStatus: 'auth'})
-  },
-  components: {
-    PageLayout
-  },
-  computed: {
-    ...mapState([
-      'checkingLogin'
-    ])
-  },
-  methods: {
-    ...mapActions([
-      'checkLogin'
-    ])
-  }
+    name: 'auth-page-standard-layout',
+    created: function(){
+      this.checkLogin({component: this, requiredStatus: 'auth'})
+    },
+    components: {
+        PageLayout
+    },
+    computed: {
+        ...mapState([
+            'checkingLogin'
+        ])
+    },
+    methods: {
+        ...mapActions([
+            'checkLogin'
+        ])
+    }
 }
 </script>

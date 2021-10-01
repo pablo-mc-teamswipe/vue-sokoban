@@ -1,33 +1,45 @@
 <template>
-  <div class="hello" >
-    <sokoban-board-panel-control />
-    <div class="down">
-      <sokoban-solutions-reported />
-      <sokoban-board-table :boardIndex="boardIndex" />
-    </div>
-  </div>
+    <fetch-data-handler>
+        <div class="sokoban-board">
+            <sokoban-board-panel-control />
+            <div class="down">
+                <sokoban-solutions-reported />
+                <sokoban-board-table />
+            </div>
+        </div>
+    </fetch-data-handler>
 </template>
 
 <script>
-import SokobanBoardPanelControl from './SokobanBoardPanelControl.vue'
-import SokobanBoardTable from './SokobanBoardTable.vue'
-import SokobanSolutionsReported from './SokobanSolutionsReported.vue'
+import { mapActions } from 'vuex'
+import FetchDataHandler from '@/components/FetchDataHandler.vue';
+import SokobanBoardPanelControl from '@/components/SokobanBoardPanelControl.vue'
+import SokobanBoardTable from '@/components/SokobanBoardTable.vue'
+import SokobanSolutionsReported from '@/components/SokobanSolutionsReported.vue'
 
 export default {
-  components: { SokobanBoardPanelControl, SokobanBoardTable, SokobanSolutionsReported},
-  name: 'sokoban-board',
-  props: {
-    boardIndex: Number
-  },
+    components: { SokobanBoardPanelControl, SokobanBoardTable, SokobanSolutionsReported, FetchDataHandler},
+    name: 'sokoban-board',
+    props: {
+        boardIndex: Number
+    },
+    created: function(){
+        this.getLevelInfo({'level': this.boardIndex});
+    },
+    methods: {
+        ...mapActions([
+            'getLevelInfo'
+        ]),
+    }
 }
 </script>
 
 <style scoped>
-.hello{
-  margin: 0 auto;
-  display: block;
+.sokoban_board{
+    margin: 0 auto;
+    display: block;
 }
 .down{
-  clear: both;
+    clear: both;
 }
 </style>
