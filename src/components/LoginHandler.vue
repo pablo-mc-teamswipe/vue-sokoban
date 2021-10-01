@@ -1,7 +1,7 @@
 <template>
     <div v-if="playerName != null" class="login_handler">
         {{ playerName}}
-        <span @click="logout">X</span>
+        <span @click="callLogout">X</span>
     </div>
 </template>
 
@@ -18,10 +18,10 @@ export default defineComponent({
     },
     methods: {
         ...mapActions([
-            'clearPlayerName'
+            'logout'
         ]),
-        logout: function(){
-            this.clearPlayerName({component: this})
+        callLogout: function(){
+            this.logout({component: this})
         }
     }
 })

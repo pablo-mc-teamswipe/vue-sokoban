@@ -4,47 +4,27 @@ import * as Settings from '@/settings.js'
 import LoginUtils from '../utils/login-utils'
 
 export default {
-    fetchLevels( {commit} ) {
-        commit( MutationTypes.FETCHING_DATA)
+    // Login actions
+    submitLogin( {commit}, {component, email, password}){
+        commit(MutationTypes.LOGIN_REQUEST)
 
-        API.fetchLevels()
+        API.submitLogin({email, password})
         .then( response => {
-            if(response.data.code == "204"){
-                commit(MutationTypes.FETCH_LEVELS, { listLevels: response.data.data } );
+            if(response.data.code == "200"){
+                localStorage.email = email;
+                localStorage.logged_at_time = new Date().getTime();
+                localStorage.access_token = response.data.data.access_token
+                localStorage.expires_in = response.data.data.expires_in
+                localStorage.refresh_token = response.data.data.refresh_token
+                localStorage.token_type = response.data.data.token_type
+                component.$router.push(Settings.BASE_AUTH_URL)
+                commit(MutationTypes.LOGIN_SUCCESS)
             }else{
-                commit(MutationTypes.ERROR );
+                commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'bad_credentials'} );
             }
         })
         .catch( () => {
-            commit(MutationTypes.ERROR );
-        });
-    },
-
-    moveTo ({ commit }, { direction }) {
-        commit(MutationTypes.MOVE_TO, {direction})
-    },
-
-    back ({commit}){
-        commit(MutationTypes.GOTO_BACK)
-    },
-
-    forward ({commit}){
-        commit(MutationTypes.GOTO_FORWARD)
-    },
-
-    initLevel( {commit}, {level}){
-        commit( MutationTypes.FETCHING_DATA)
-
-        API.fetchLevel(level)
-        .then( response => {
-            if(response.data.code == "204"){
-                commit(MutationTypes.INIT_LEVEL, {level: response.data.level});
-            }else{
-                commit(MutationTypes.ERROR );
-            }
-        })
-        .catch( () => {
-            commit(MutationTypes.ERROR );
+            commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'net_error'} );
         });
     },
 
@@ -85,56 +65,75 @@ export default {
 
     },
 
-    setPlayerName( {commit} , {component, playerName}){
-        localStorage.playerName = playerName;
-        commit(MutationTypes.SET_PLAYER_NAME, {playerName})
-        component.$router.push(Settings.BASE_AUTH_URL)
-    },
-
-    clearPlayerName( {commit} , {component}){
+    // Logout actions
+    logout( {commit} , {component}){
         localStorage.clear();
-        commit(MutationTypes.SET_PLAYER_NAME, {playerName: null})
+        commit(MutationTypes.LOGOUT)
         component.$router.push(Settings.BASE_GUEST_URL)
     },
 
+    // Fetch data actions
+    fetchLevels( {commit} ) {
+        commit( MutationTypes.FETCH_LEVELS_REQUEST)
+
+        API.fetchLevels()
+        .then( response => {
+            if(response.data.code == "204"){
+                commit(MutationTypes.FETCH_LEVELS_SUCCESS, { listLevels: response.data.data } );
+            }else{
+                commit(MutationTypes.FETCH_LEVELS_FAILURE );
+            }
+        })
+        .catch( () => {
+            commit(MutationTypes.FETCH_LEVELS_FAILURE );
+        });
+    },
+
+    getLevelInfo( {commit}, {level}){
+        commit( MutationTypes.GET_LEVEL_INFO_REQUEST)
+
+        API.fetchLevel(level)
+        .then( response => {
+            if(response.data.code == "204"){
+                commit(MutationTypes.GET_LEVEL_INFO_SUCCESS, {level: response.data.level});
+            }else{
+                commit(MutationTypes.GET_LEVEL_INFO_FAILURE );
+            }
+        })
+        .catch( () => {
+            commit(MutationTypes.GET_LEVEL_INFO_FAILURE );
+        });
+    },
+
+    // Post data actions
     reportSolution( {commit} , {levelId, numberMovements}){
-        commit( MutationTypes.FETCHING_DATA)
+        commit( MutationTypes.REPORT_SOLUTION_REQUEST)
 
         API.reportSolution({levelId, numberMovements, playerName: localStorage.playerName})
         .then( response => {
             if(response.data.code == "204"){
-                commit(MutationTypes.ERROR );
+                commit(MutationTypes.REPORT_SOLUTION_SUCCESS );
             }else{
-                commit(MutationTypes.ERROR );
+                commit(MutationTypes.REPORT_SOLUTION_FAILURE );
             }
         })
         .catch( () => {
-            commit(MutationTypes.ERROR );
+            commit(MutationTypes.REPORT_SOLUTION_FAILURE );
         });
     },
 
-    submitLogin( {commit}, {component, email, password}){
-        commit(MutationTypes.LOGIN_REQUEST)
+    // Game actions
+    moveTo ({ commit }, { direction }) {
+        commit(MutationTypes.MOVE_TO, {direction})
+    },
 
-        API.submitLogin({email, password})
-        .then( response => {
-            if(response.data.code == "200"){
-                localStorage.email = email;
-                localStorage.logged_at_time = new Date().getTime();
-                localStorage.access_token = response.data.data.access_token
-                localStorage.expires_in = response.data.data.expires_in
-                localStorage.refresh_token = response.data.data.refresh_token
-                localStorage.token_type = response.data.data.token_type
-                component.$router.push(Settings.BASE_AUTH_URL)
-                commit(MutationTypes.LOGIN_SUCCESS)
-            }else{
-                commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'bad_credentials'} );
-            }
-        })
-        .catch( () => {
-            commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'net_error'} );
-        });
-    }
+    back ({commit}){
+        commit(MutationTypes.GOTO_BACK)
+    },
+
+    forward ({commit}){
+        commit(MutationTypes.GOTO_FORWARD)
+    },
 }  
 
 //https://stackoverflow.com/questions/52048944/vuex-call-getters-from-action

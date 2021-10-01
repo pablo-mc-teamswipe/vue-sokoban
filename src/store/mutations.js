@@ -3,7 +3,88 @@ import * as CellDefinitions from '@/game/cell-definitions'
 import * as CellUtils from '@/game/cell-utils';
 
 export default {
-    // Fetch the boards created by user
+    // Login mutations
+    [MutationTypes.LOGIN_REQUEST] (state){
+        state.loginRequest = true
+        state.loginError = ''
+    },
+
+    [MutationTypes.LOGIN_SUCCESS] (state){
+        state.loginRequest = false
+    },
+
+    [MutationTypes.LOGIN_FAILURE] (state , {errorLabel}){
+        state.loginError = errorLabel
+        state.loginRequest = false
+    },
+
+    [MutationTypes.LOGIN_CHECK_REQUEST] (state) {
+        state.checkingLogin = true
+    },
+
+    [MutationTypes.LOGIN_CHECK_SUCCESS] (state, {playerName}) {
+        state.checkingLogin = false
+        state.playerName = playerName;
+    },
+
+    [MutationTypes.LOGIN_CHECK_FAILURE] (state) {
+        state.checkingLogin = false
+    },
+
+    // Logout mutations
+    [MutationTypes.LOGOUT] (state) {
+        state.playerName = null
+    },
+
+    // Fetch data mutations
+    [MutationTypes.FETCH_LEVELS_REQUEST] (state) {
+        state.fetchingData = true
+    },
+
+    [MutationTypes.FETCH_LEVELS_SUCCESS] (state, {listLevels}) {
+        Object.assign(state.listLevels, listLevels)
+    },
+
+    [MutationTypes.FETCH_LEVELS_FAILURE] (state){
+        state.error = true
+    },
+
+    [MutationTypes.GET_LEVEL_INFO_REQUEST] (state) {
+        state.fetchingData = true
+    },
+
+    [MutationTypes.GET_LEVEL_INFO_SUCCESS] (state, {level}) {
+        state.levelId = level.id;
+        state.board = level.board;
+        state.solutionsReported = level.solutionsReported;
+        Object.assign(state.playerCurrentPosition, state.board.playerInitialPosition)
+        Object.assign(state.bricksCurrentPosition,[])
+        for(let iterator in state.board.bricksInitialPosition){
+            state.bricksCurrentPosition[iterator] = state.board.bricksInitialPosition[iterator];
+        }
+        state.numberMovements = 0;
+        state.numberMovementsPlayed = 0;
+        state.levelCompleted = false
+    },
+
+    [MutationTypes.GET_LEVEL_INFO_FAILURE] (state){
+        state.error = true
+    },
+
+    // Post data mutations
+    [MutationTypes.REPORT_SOLUTION_REQUEST] (state) {
+        state.fetchingData = true
+    },
+
+    [MutationTypes.REPORT_SOLUTION_SUCCESS] (state) {
+        state.error = true
+    },
+
+    [MutationTypes.REPORT_SOLUTION_FAILURE] (state){
+        state.error = true
+    },
+
+    // Game mutations
     [MutationTypes.MOVE_TO] (state, { direction }) {
         let movementRow, movementColumn
         let incrementDimensions = CellUtils.default.getDimensionIncrementsByDirection(direction);
@@ -61,62 +142,5 @@ export default {
             state.bricksCurrentPosition[nextMovement.indexBrickMoved].column += incrementDimensions.movementColumn
         }
         state.numberMovementsPlayed++
-    },
-
-    [MutationTypes.INIT_LEVEL] (state, {level}) {
-        state.levelId = level.id;
-        state.board = level.board;
-        state.solutionsReported = level.solutionsReported;
-        Object.assign(state.playerCurrentPosition, state.board.playerInitialPosition)
-        Object.assign(state.bricksCurrentPosition,[])
-        for(let iterator in state.board.bricksInitialPosition){
-            state.bricksCurrentPosition[iterator] = state.board.bricksInitialPosition[iterator];
-        }
-        state.numberMovements = 0;
-        state.numberMovementsPlayed = 0;
-        state.levelCompleted = false
-    },
-
-    [MutationTypes.FETCH_LEVELS] (state, {listLevels}) {
-        Object.assign(state.listLevels, listLevels)
-    },
-
-    [MutationTypes.FETCHING_DATA] (state){
-        state.fetchingData = true
-    },
-
-    [MutationTypes.ERROR] (state){
-        state.error = true
-    },
-
-    [MutationTypes.SET_PLAYER_NAME] (state, {playerName}){
-        state.playerName = playerName;
-    },
-
-    [MutationTypes.LOGIN_REQUEST] (state){
-        state.loginRequest = true
-        state.loginError = ''
-    },
-
-    [MutationTypes.LOGIN_SUCCESS] (state){
-        state.loginRequest = false
-    },
-
-    [MutationTypes.LOGIN_FAILURE] (state , {errorLabel}){
-        state.loginError = errorLabel
-        state.loginRequest = false
-    },
-
-    [MutationTypes.LOGIN_CHECK_REQUEST] (state) {
-        state.checkingLogin = true
-    },
-
-    [MutationTypes.LOGIN_CHECK_SUCCESS] (state, {playerName}) {
-        state.checkingLogin = false
-        state.playerName = playerName;
-    },
-
-    [MutationTypes.LOGIN_CHECK_FAILURE] (state) {
-        state.checkingLogin = false
     },
 }  

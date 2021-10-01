@@ -17,7 +17,7 @@ export default defineComponent({
         boardIndex: Number
     },
     created: function(){
-        this.initLevel({'level': this.boardIndex});
+        this.getLevelInfo({'level': this.boardIndex});
     },
     components: {SokobanCell},  
     computed: {
@@ -27,7 +27,7 @@ export default defineComponent({
     },
     methods: {
         ...mapActions([
-            'initLevel'
+            'getLevelInfo'
         ]),
     }
 })
