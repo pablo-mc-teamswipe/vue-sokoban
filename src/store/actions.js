@@ -5,6 +5,57 @@ import LoginUtils from '../utils/login-utils'
 
 export default {
     // Login actions
+    handleStatusLoginResponse({commit} , {source, response, requiredStatus, component}){
+        let status = 'guest'
+        console.log(response)
+        if(typeof response == 'string'){
+            status = response;
+        }else{
+            if(response.data.code == "200"){
+                status = 'auth'
+                localStorage.access_token = response.data.data.access_token;
+                localStorage.refresh_token = response.data.data.refresh_token;
+                localStorage.expires_in = response.data.data.expires_in;
+                localStorage.logged_at_time = new Date().getTime();
+            }else{
+                localStorage.clear();
+                if(source == 'beforeViewDisplay'){
+                    commit( MutationTypes.LOGIN_CHECK_SUCCESS_EXPIRED_TOKEN)
+                }
+            }
+        }
+
+        if( source == 'beforeApiRequest'){
+            return status
+        }
+
+        if(source == 'beforeViewDisplay'){
+            if(status == 'auth'){
+                commit( MutationTypes.LOGIN_CHECK_SUCCESS, {playerName: localStorage.email})
+            }
+    
+            if(requiredStatus == 'auth' && status == 'guest'){
+                component.$router.push(Settings.BASE_GUEST_URL);
+            }
+            if(requiredStatus == 'guest' && status == 'auth'){
+                component.$router.push(Settings.BASE_AUTH_URL);
+            }
+        }
+    },
+
+    checkLoginBeforeApiRequest({ dispatch} ){
+        return new Promise((resolve, reject) => {
+            LoginUtils.getStatusLogin()
+            .then( response => {
+                const status = dispatch('handleStatusLoginResponse', {source: 'beforeApiRequest', response})
+                resolve(status);
+            })
+            .catch( () => {
+                reject();
+            })
+        });
+    },
+
     submitLogin( {commit}, {component, email, password}){
         commit(MutationTypes.LOGIN_REQUEST)
 
@@ -28,38 +79,11 @@ export default {
         });
     },
 
-    checkLogin( {commit} , {requiredStatus, component} ){
+    checkLogin( {commit, dispatch} , {requiredStatus, component} ){
         commit(MutationTypes.LOGIN_CHECK_REQUEST)
-        let status = 'guest'
         LoginUtils.getStatusLogin()
         .then( response => {
-            console.log(response)
-            if(typeof response == 'string'){
-                status = response;
-            }else{
-                if(response.data.code == "200"){
-                    status = 'auth'
-                    localStorage.access_token = response.data.data.access_token;
-                    localStorage.refresh_token = response.data.data.refresh_token;
-                    localStorage.expires_in = response.data.data.expires_in;
-                    localStorage.logged_at_time = new Date().getTime();
-                }else{
-                    localStorage.clear();
-                    commit( MutationTypes.LOGIN_CHECK_SUCCESS_EXPIRED_TOKEN)
-                }
-            }
-
-            if(status == 'auth'){
-                commit( MutationTypes.LOGIN_CHECK_SUCCESS, {playerName: localStorage.email})
-            }
-    
-            if(requiredStatus == 'auth' && status == 'guest'){
-                component.$router.push(Settings.BASE_GUEST_URL);
-            }
-            if(requiredStatus == 'guest' && status == 'auth'){
-                component.$router.push(Settings.BASE_AUTH_URL);
-            }
-
+            dispatch('handleStatusLoginResponse' , {source: 'beforeViewDisplay', response, component, requiredStatus})
         }).
         catch( () => {
             commit(MutationTypes.LOGIN_CHECK_FAILURE );
@@ -107,19 +131,24 @@ export default {
     },
 
     // Post data actions
-    reportSolution( {commit} , {levelId, numberMovements}){
+    reportSolution( {commit, dispatch} , {levelId, numberMovements}){
         commit( MutationTypes.REPORT_SOLUTION_REQUEST)
-
-        API.reportSolution({levelId, numberMovements, playerName: localStorage.playerName})
-        .then( response => {
-            if(response.data.code == "204"){
-                commit(MutationTypes.REPORT_SOLUTION_SUCCESS );
-            }else{
-                commit(MutationTypes.REPORT_SOLUTION_FAILURE );
+        dispatch('checkLoginBeforeApiRequest').then( status => {
+            console.log(status)
+            if( status == 'auth'){
+                console.log(`reporting solution for level ${levelId} with ${numberMovements} movements`)
+                API.reportSolution({levelId, numberMovements, playerName: localStorage.playerName})
+                .then( response => {
+                    if(response.data.code == "204"){
+                        commit(MutationTypes.REPORT_SOLUTION_SUCCESS );
+                    }else{
+                        commit(MutationTypes.REPORT_SOLUTION_FAILURE );
+                    }
+                })
+                .catch( () => {
+                    commit(MutationTypes.REPORT_SOLUTION_FAILURE );
+                });
             }
-        })
-        .catch( () => {
-            commit(MutationTypes.REPORT_SOLUTION_FAILURE );
         });
     },
 
