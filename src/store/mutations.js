@@ -27,6 +27,11 @@ export default {
         state.playerName = playerName;
     },
 
+    [MutationTypes.LOGIN_CHECK_SUCCESS_EXPIRED_TOKEN] (state) {
+        state.checkingLogin = false
+        state.playerName = null
+    },
+
     [MutationTypes.LOGIN_CHECK_FAILURE] (state) {
         state.checkingLogin = false
     },
@@ -38,22 +43,27 @@ export default {
 
     // Fetch data mutations
     [MutationTypes.FETCH_LEVELS_REQUEST] (state) {
-        state.fetchingData = true
+        state.fetchingDataInProgress = true
+        state.fetchingDataError = false
     },
 
     [MutationTypes.FETCH_LEVELS_SUCCESS] (state, {listLevels}) {
+        state.fetchingDataInProgress = false
         Object.assign(state.listLevels, listLevels)
     },
 
     [MutationTypes.FETCH_LEVELS_FAILURE] (state){
-        state.error = true
+        state.fetchingDataInProgress = false
+        state.fetchingDataError = true
     },
 
     [MutationTypes.GET_LEVEL_INFO_REQUEST] (state) {
-        state.fetchingData = true
+        state.fetchingDataInProgress = true
+        state.fetchingDataError = false
     },
 
     [MutationTypes.GET_LEVEL_INFO_SUCCESS] (state, {level}) {
+        state.fetchingDataInProgress = false
         state.levelId = level.id;
         state.board = level.board;
         state.solutionsReported = level.solutionsReported;
@@ -68,7 +78,8 @@ export default {
     },
 
     [MutationTypes.GET_LEVEL_INFO_FAILURE] (state){
-        state.error = true
+        state.fetchingDataInProgress = false
+        state.fetchingDataError = true
     },
 
     // Post data mutations

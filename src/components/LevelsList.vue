@@ -1,18 +1,19 @@
 <template>
-    <div class="home">
+    <fetch-data-handler>
         {{t('levels_list')}}
         <ul>
             <li v-for="(level, index) in listLevels" :key="index">
                 <router-link :to="{ name: 'Level', params: { boardIndex: level.id } }"> {{level.name}}</router-link>
             </li>
         </ul>
-    </div>
+    </fetch-data-handler>
 </template>
 
 <script>
 // @ is an alias to /src
 import { mapState, mapActions } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import FetchDataHandler from '@/components/FetchDataHandler.vue'
 
 export default {
   name: 'levels-list',
@@ -26,6 +27,7 @@ export default {
 
     return { t }
   },
+  components: { FetchDataHandler},
   created: function(){
     this.fetchLevels();
   },

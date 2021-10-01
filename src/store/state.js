@@ -7,8 +7,8 @@ export default {
     playerName: null,
 
     // General fetching state data
-    fetchingData: false,
-    error: false,
+    fetchingDataInProgress: false,
+    fetchingDataError: false,
 
     // List levels state data
     listLevels: [ /* { id, name, description, screenshot} */ ],

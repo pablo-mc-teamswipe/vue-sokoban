@@ -1,16 +1,19 @@
 <template>
-    <ul>
-        <li v-for="indexRow in board.rows" :key="indexRow" >
-            <sokoban-cell v-for="indexColumn in board.columns" :key="indexColumn" 
-                :row="indexRow" :column="indexColumn" ></sokoban-cell>
-        </li>
-    </ul>
+    <fetch-data-handler>
+        <ul>
+            <li v-for="indexRow in board.rows" :key="indexRow" >
+                <sokoban-cell v-for="indexColumn in board.columns" :key="indexColumn" 
+                    :row="indexRow" :column="indexColumn" ></sokoban-cell>
+            </li>
+        </ul>
+    </fetch-data-handler>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { mapState, mapActions } from 'vuex'
-import SokobanCell from './SokobanCell.vue'
+import FetchDataHandler from '@/components/FetchDataHandler.vue';
+import SokobanCell from '@/components/SokobanCell.vue'
 
 export default defineComponent({
     props: {
@@ -19,7 +22,7 @@ export default defineComponent({
     created: function(){
         this.getLevelInfo({'level': this.boardIndex});
     },
-    components: {SokobanCell},  
+    components: {SokobanCell, FetchDataHandler},  
     computed: {
         ...mapState([
             'board'

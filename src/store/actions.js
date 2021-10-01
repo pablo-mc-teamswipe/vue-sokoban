@@ -43,6 +43,9 @@ export default {
                     localStorage.refresh_token = response.data.data.refresh_token;
                     localStorage.expires_in = response.data.data.expires_in;
                     localStorage.logged_at_time = new Date().getTime();
+                }else{
+                    localStorage.clear();
+                    commit( MutationTypes.LOGIN_CHECK_SUCCESS_EXPIRED_TOKEN)
                 }
             }
 
@@ -61,8 +64,6 @@ export default {
         catch( () => {
             commit(MutationTypes.LOGIN_CHECK_FAILURE );
         })
-
-
     },
 
     // Logout actions
