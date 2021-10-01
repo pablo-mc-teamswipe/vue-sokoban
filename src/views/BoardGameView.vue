@@ -1,30 +1,21 @@
 <template>
-    <page-layout>
+    <auth-page-standard-layout>
         <sokoban-board :boardIndex="boardIndex"/>
-    </page-layout>
+    </auth-page-standard-layout>
 </template>
 
 <script>
 // @ is an alias to /src
-import { mapActions } from 'vuex'
-import PageLayout from '@/components/PageLayout.vue'
+import AuthPageStandardLayout from '@/components/AuthPageStandardLayout.vue'
 import SokobanBoard from '@/components/SokobanBoard.vue'
 
 export default {
-    name: 'Home',
-    created: function(){
-        this.checkLogin({component: this, requiredStatus: 'auth'})
-    },
+    name: 'board-game-view',
     components: {
-        SokobanBoard, PageLayout
+        SokobanBoard, AuthPageStandardLayout
     },
     props: {
         boardIndex: Number
     },
-    methods: {
-        ...mapActions([
-            'checkLogin'
-        ])
-    }
 }
 </script>

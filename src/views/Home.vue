@@ -1,32 +1,18 @@
 <template>
-    <page-layout>
-        <levels-list v-if="!checkingLogin" />
-    </page-layout>
+    <auth-page-standard-layout>
+        <levels-list />
+    </auth-page-standard-layout>
 </template>
 
 <script>
 // @ is an alias to /src
-import { mapState, mapActions } from 'vuex'
-import PageLayout from '@/components/PageLayout.vue'
+import AuthPageStandardLayout from '@/components/AuthPageStandardLayout.vue'
 import LevelsList from '@/components/LevelsList.vue'
 
 export default {
   name: 'Home',
-  created: function(){
-    this.checkLogin({component: this, requiredStatus: 'auth'})
-  },
   components: {
-    LevelsList, PageLayout
-  },
-  computed: {
-    ...mapState([
-      'checkingLogin'
-    ])
-  },
-  methods: {
-    ...mapActions([
-      'checkLogin'
-    ])
+    LevelsList, AuthPageStandardLayout
   }
 }
 </script>
