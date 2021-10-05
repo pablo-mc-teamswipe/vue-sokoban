@@ -3,8 +3,14 @@
         <div class="form"  v-if="!loginRequest">
             <label for="name">E-mail</label>
             <input type="text" name="name" v-model="email" />
+            <div class="input-errors" v-for="error of v$.email.$errors" :key="error.$uid">
+                <div class="error-msg">{{ error.$property  }} {{ error.$params.type}}</div>
+            </div>
             <label for="password">Password</label>
             <input type="password" name="name" v-model="password" />
+            <div class="input-errors" v-for="error of v$.password.$errors" :key="error.$uid">
+                <div class="error-msg">{{ error.$property  }} {{ error.$params.type}}</div>
+            </div>
             <button @click="callSubmitLogin">Submit</button>
         </div>
         <div v-else>
@@ -18,6 +24,8 @@
 import { defineComponent } from 'vue'
 import { mapState, mapActions } from 'vuex'
 import { useI18n } from 'vue-i18n'
+import useVuelidate from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 
 export default defineComponent({
     name: 'login-form',
@@ -29,7 +37,7 @@ export default defineComponent({
 
         // Something todo ..
 
-        return { t }
+        return { t, v$: useVuelidate() }
     },
     data: function(){
         return {
@@ -48,8 +56,17 @@ export default defineComponent({
             'submitLogin'
         ]),
         callSubmitLogin: function(){
-            this.submitLogin({component: this, email: this.email, password: this.password})
+            this.v$.$touch();
+            if(this.v$.$errors.length == 0){
+                this.submitLogin({component: this, email: this.email, password: this.password})
+            }
         },
+    },
+    validations () {
+        return {
+            email: { required, email }, // Matches this.email
+            password: { required }, // Matches this.password
+        }
     }
 })
 </script>
