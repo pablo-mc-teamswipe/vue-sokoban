@@ -1,22 +1,22 @@
 <template>
-    <div class="container-form">
-        <div class="form"  v-if="!loginRequest">
+    <div class="form">
+        <div class="input-container">
             <label for="name">E-mail</label>
             <input type="text" name="name" v-model="email" />
             <div class="input-errors" v-for="error of v$.email.$errors" :key="error.$uid">
                 <div class="error-msg">{{ error.$property  }} {{ error.$params.type}}</div>
             </div>
+        </div>
+        <div class="input-container">
             <label for="password">Password</label>
             <input type="password" name="name" v-model="password" />
             <div class="input-errors" v-for="error of v$.password.$errors" :key="error.$uid">
                 <div class="error-msg">{{ error.$property  }} {{ error.$params.type}}</div>
             </div>
-            <button @click="callSubmitLogin">Submit</button>
         </div>
-        <div v-else>
-            {{t('loading')}}
-        </div>
-        <div v-if="loginError != ''"> {{t(loginError)}} </div>
+        <button v-if="!loginRequest" @click="callSubmitLogin">Submit</button>
+        <div v-else> {{t('loading')}} </div>
+        <div v-if="loginError != ''" class="error-msg"> {{t(loginError)}} </div>
     </div>
 </template>
 
@@ -72,6 +72,30 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.form{
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
+}
+label{
+    float: left;
+    font-size: 13px;
+}
+.input-container{
+    min-height: 60px;
+}
+
+input{
+    border-width: 0 0 1px 0;
+    clear: both;
+    width: 100%;
+
+}
+
+.error-msg{
+    color: #fe4066;
+    font-size: 11px;
+}
 </style>
 
 <i18n>
