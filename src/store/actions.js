@@ -4,32 +4,24 @@ import * as Settings from '@/settings.js'
 import LoginUtils from '../utils/login-utils'
 
 export default {
-    // Login actions
-    handleStatusLoginResponse({commit} , {source, response, requiredStatus, component}){
-        let status = 'guest'
-        console.log(response)
-        if(typeof response == 'string'){
-            status = response;
-        }else{
-            if(response.data.code == "200"){
-                status = 'auth'
-                localStorage.access_token = response.data.data.access_token;
-                localStorage.refresh_token = response.data.data.refresh_token;
-                localStorage.expires_in = response.data.data.expires_in;
-                localStorage.logged_at_time = new Date().getTime();
-            }else{
-                localStorage.clear();
-                if(source == 'beforeViewDisplay'){
-                    commit( MutationTypes.LOGIN_CHECK_SUCCESS_EXPIRED_TOKEN)
-                }
-            }
-        }
+    submitLogin( {commit}, {component, email, password}){
+        commit(MutationTypes.LOGIN_REQUEST)
 
-        if( source == 'beforeApiRequest'){
-            return status
-        }
+        LoginUtils.submitLogin({ email, password})
+        .then( () => {
+            commit(MutationTypes.LOGIN_SUCCESS)
+            component.$router.push(Settings.BASE_AUTH_URL)
+        })
+        .catch( ({errorLabel}) => {
+            commit(MutationTypes.LOGIN_FAILURE , {errorLabel} );
+        });
+    },
 
-        if(source == 'beforeViewDisplay'){
+    checkLogin( {commit} , {requiredStatus, component} ){
+        commit(MutationTypes.LOGIN_CHECK_REQUEST)
+        LoginUtils.getStatusLogin()
+        .then( status => {
+            console.log(status)
             if(status == 'auth'){
                 commit( MutationTypes.LOGIN_CHECK_SUCCESS, {playerName: localStorage.email})
             }
@@ -40,50 +32,6 @@ export default {
             if(requiredStatus == 'guest' && status == 'auth'){
                 component.$router.push(Settings.BASE_AUTH_URL);
             }
-        }
-    },
-
-    checkLoginBeforeApiRequest({ dispatch} ){
-        return new Promise((resolve, reject) => {
-            LoginUtils.getStatusLogin()
-            .then( response => {
-                const status = dispatch('handleStatusLoginResponse', {source: 'beforeApiRequest', response})
-                resolve(status);
-            })
-            .catch( () => {
-                reject();
-            })
-        });
-    },
-
-    submitLogin( {commit}, {component, email, password}){
-        commit(MutationTypes.LOGIN_REQUEST)
-
-        API.submitLogin({email, password})
-        .then( response => {
-            if(response.data.code == "200"){
-                localStorage.email = email;
-                localStorage.logged_at_time = new Date().getTime();
-                localStorage.access_token = response.data.data.access_token
-                localStorage.expires_in = response.data.data.expires_in
-                localStorage.refresh_token = response.data.data.refresh_token
-                localStorage.token_type = response.data.data.token_type
-                component.$router.push(Settings.BASE_AUTH_URL)
-                commit(MutationTypes.LOGIN_SUCCESS)
-            }else{
-                commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'bad_credentials'} );
-            }
-        })
-        .catch( () => {
-            commit(MutationTypes.LOGIN_FAILURE , {errorLabel: 'net_error'} );
-        });
-    },
-
-    checkLogin( {commit, dispatch} , {requiredStatus, component} ){
-        commit(MutationTypes.LOGIN_CHECK_REQUEST)
-        LoginUtils.getStatusLogin()
-        .then( response => {
-            dispatch('handleStatusLoginResponse' , {source: 'beforeViewDisplay', response, component, requiredStatus})
         }).
         catch( () => {
             commit(MutationTypes.LOGIN_CHECK_FAILURE );
@@ -131,9 +79,9 @@ export default {
     },
 
     // Post data actions
-    reportSolution( {commit, dispatch} , {levelId, numberMovements}){
+    reportSolution( {commit} , {levelId, numberMovements}){
         commit( MutationTypes.REPORT_SOLUTION_REQUEST)
-        dispatch('checkLoginBeforeApiRequest').then( status => {
+        LoginUtils.getStatusLogin().then( status => {
             console.log(status)
             if( status == 'auth'){
                 console.log(`reporting solution for level ${levelId} with ${numberMovements} movements`)
