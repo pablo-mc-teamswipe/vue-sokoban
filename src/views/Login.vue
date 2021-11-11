@@ -19,7 +19,7 @@ export default defineComponent({
         
     },
     created: function(){
-        this.checkLogin({component: this, requiredStatus: 'guest'})
+        this.checkLogin({requiredStatus: 'guest'})
     },
     methods: {
         ...mapActions([

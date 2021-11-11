@@ -58,7 +58,7 @@ export default defineComponent({
         callSubmitLogin: function(){
             this.v$.$touch();
             if(this.v$.$errors.length == 0){
-                this.submitLogin({component: this, email: this.email, password: this.password})
+                this.submitLogin({email: this.email, password: this.password})
             }
         },
     },

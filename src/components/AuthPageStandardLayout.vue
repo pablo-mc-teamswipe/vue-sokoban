@@ -13,7 +13,7 @@ import PageLayout from '@/components/PageLayout.vue'
 export default {
     name: 'auth-page-standard-layout',
     created: function(){
-      this.checkLogin({component: this, requiredStatus: 'auth'})
+      this.checkLogin({requiredStatus: 'auth'})
     },
     components: {
         PageLayout

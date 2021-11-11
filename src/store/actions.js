@@ -2,22 +2,23 @@ import API from '@/api'
 import * as MutationTypes from '@/store/mutation-types'
 import * as Settings from '@/settings.js'
 import LoginUtils from '../utils/login-utils'
+import router from '@/router'
 
 export default {
-    submitLogin( {commit}, {component, email, password}){
+    submitLogin( {commit}, {email, password}){
         commit(MutationTypes.LOGIN_REQUEST)
 
         LoginUtils.submitLogin({ email, password})
         .then( () => {
             commit(MutationTypes.LOGIN_SUCCESS)
-            component.$router.push(Settings.BASE_AUTH_URL)
+            router.push(Settings.BASE_AUTH_URL)
         })
         .catch( ({errorLabel}) => {
             commit(MutationTypes.LOGIN_FAILURE , {errorLabel} );
         });
     },
 
-    checkLogin( {commit} , {requiredStatus, component} ){
+    checkLogin( {commit} , {requiredStatus} ){
         commit(MutationTypes.LOGIN_CHECK_REQUEST)
         LoginUtils.getStatusLogin()
         .then( status => {
@@ -27,10 +28,10 @@ export default {
             }
     
             if(requiredStatus == 'auth' && status == 'guest'){
-                component.$router.push(Settings.BASE_GUEST_URL);
+                router.push(Settings.BASE_GUEST_URL);
             }
             if(requiredStatus == 'guest' && status == 'auth'){
-                component.$router.push(Settings.BASE_AUTH_URL);
+                router.push(Settings.BASE_AUTH_URL);
             }
         }).
         catch( () => {
@@ -39,10 +40,10 @@ export default {
     },
 
     // Logout actions
-    logout( {commit} , {component}){
+    logout( {commit} ){
         localStorage.clear();
         commit(MutationTypes.LOGOUT)
-        component.$router.push(Settings.BASE_GUEST_URL)
+        router.push(Settings.BASE_GUEST_URL)
     },
 
     // Fetch data actions

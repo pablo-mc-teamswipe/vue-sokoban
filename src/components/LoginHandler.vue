@@ -21,7 +21,7 @@ export default defineComponent({
             'logout'
         ]),
         callLogout: function(){
-            this.logout({component: this})
+            this.logout()
         }
     }
 })
